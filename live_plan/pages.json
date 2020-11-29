@@ -1,0 +1,230 @@
+{
+    "pages": [{
+            "path": "pages/index/index",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        }, {
+            "path": "pages/tabbar/order",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/tabbar/store",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/tabbar/statistics",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/tabbar/goods",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/index/register",
+            "style": {
+                "navigationBarTitleText": "注册",
+                "navigationBarBackgroundColor": "#ffffff"
+            }
+        }, {
+            "path": "pages/index/codeLogin",
+            "style": {
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationBarTitleText": ""
+            }
+        }, {
+            "path": "pages/index/forgetPs",
+            "style": {
+                "navigationBarTitleText": "忘记密码",
+                "navigationBarBackgroundColor": "#ffffff"
+            }
+        }, {
+            "path": "pages/index/modifyPs",
+            "style": {
+                "navigationBarTitleText": "修改密码",
+                "navigationBarBackgroundColor": "#ffffff"
+            }
+        }, {
+            "path": "pages/examine/result",
+            "style": {
+                "navigationBarTitleText": "店铺资料审核",
+                "navigationBarBackgroundColor": "#ffffff"
+            }
+        }, {
+            "path": "pages/examine/index",
+            "style": {
+                "navigationBarTitleText": "店铺审核资料",
+                "navigationBarBackgroundColor": "#ffffff"
+            }
+        },
+        {
+            "path": "pages/orders/order-detail",
+            "style": {
+                "navigationBarTitleText": "订单详情",
+                "navigationBarBackgroundColor": "#ffffff"
+            }
+        },
+        {
+            "path": "pages/orders/orders-find",
+            "style": {
+
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/goods/add",
+            "style": {
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationBarTitleText": "添加商品"
+            }
+        },
+        {
+            "path": "pages/stores/store_account",
+            "style": {
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationBarTitleText": "账户流水"
+            }
+        },
+        {
+            "path": "pages/stores/store_manage",
+            "style": {
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationBarTitleText": "资金管理"
+            }
+        },
+        {
+            "path": "pages/stores/store_cash",
+            "style": {
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationBarTitleText": "提现"
+            }
+        },
+        {
+            "path": "pages/stores/choose_account",
+            "style": {
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationBarTitleText": "选择账户",
+                "app-plus": {
+                    "titleNView": {
+                        "buttons": [{
+                            "text": "添加",
+                            "fontSize": "14",
+                            "float": "right"
+                        }]
+                    }
+                }
+            }
+        },
+        {
+            "path": "pages/stores/store_cash_record",
+            "style": {
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationBarTitleText": "提现记录"
+            }
+        },
+        {
+            "path": "pages/stores/store_cash_account",
+            "style": {
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationBarTitleText": "提现账号",
+                "app-plus": {
+                    "titleNView": {
+                        "buttons": [{
+                            "text": "添加",
+                            "fontSize": "14",
+                            "float": "right"
+                        }]
+                    }
+                }
+            }
+        },
+        {
+            "path": "pages/stores/manage",
+            "style": {
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationBarTitleText": "设置"
+            }
+        },
+        {
+            "path": "pages/stores/account_manage",
+            "style": {
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationBarTitleText": "账号管理"
+            }
+        }
+		,{
+		    "path" : "pages/stores/Live",
+		    "style" : {
+				 "navigationBarBackgroundColor": "#ffffff",
+				   "navigationStyle": "custom"
+			}
+		}
+		,{
+		    "path" : "pages/stores/liveregi",
+		    "style" : {
+				 "navigationBarBackgroundColor": "#ffffff",
+				  "navigationStyle": "custom"
+			}
+		},
+        {
+            "path": "pages/stores/mation",
+            "style": {
+                "navigationBarBackgroundColor": "#ffffff",
+                "navigationBarTitleText": "消息",
+                "app-plus": {
+                    "titleNView": {
+                        "buttons": [{
+                            "text": "全部已读",
+                            "fontSize": "14",
+                            "float": "right"
+                        }]
+                    }
+                }
+            }
+        }
+
+       
+		
+    ],
+    "tabBar": {
+        "color": "#BFBFBF",
+        "selectedColor": "#4688FA",
+        "backgroundColor": "#ffffff",
+        "list": [{
+            "pagePath": "pages/tabbar/order",
+            "iconPath": "static/tab-bar/order.png",
+            "selectedIconPath": "static/tab-bar/order-active.png",
+            "text": "订单"
+        }, {
+            "pagePath": "pages/tabbar/goods",
+            "iconPath": "static/tab-bar/goods.png",
+            "selectedIconPath": "static/tab-bar/goods-active.png",
+            "text": "商品"
+        }, {
+            "pagePath": "pages/tabbar/statistics",
+            "iconPath": "static/tab-bar/statistics.png",
+            "selectedIconPath": "static/tab-bar/statistics-active.png",
+            "text": "统计"
+        }, {
+            "pagePath": "pages/tabbar/store",
+            "iconPath": "static/tab-bar/store.png",
+            "selectedIconPath": "static/tab-bar/store-active.png",
+            "text": "店铺"
+        }]
+    },
+    "globalStyle": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "uni-app",
+        "navigationBarBackgroundColor": "#F8F8F8",
+        "backgroundColor": "#F8F8F8"
+    }
+}

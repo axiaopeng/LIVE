@@ -1,0 +1,118 @@
+<template>
+    <view class="page" :style="'position:relative; width: 100vw;height: 100vh;margin-top:'+mt*2+'upx'" >
+		<cover-view   style="width: 100vw;height: 100vh;">
+        <live-pusher :style="'width: 100vw;height:'+height*2+'upx'"  id='livePusher' ref="livePusher" class="livePusher" url="rtmp://117769.livepush.myqcloud.com/live/1?txSecret=c3c97dd837007f7c7c5b969f0afc7783&txTime=5FAEC73A"
+        mode="FHD" :muted="true" :enable-camera="true" :auto-focus="true" :beauty="1" whiteness="2"
+        aspect="9:16" @statechange="statechange" @netstatus="netstatus" @error = "error"
+        ></live-pusher>
+		</cover-view>
+		<view class="btns" style="position: absolute; bottom:0;">
+			<button class="btn" @click="start">开始推流</button>
+			<button class="btn" @click="pause">暂停推流</button>
+			<!-- <button class="btn" @click="resume">resume</button> -->
+			<button class="btn" @click="stop">停止推流</button>
+			<!-- <button class="btn" @click="snapshot">快照</button> -->
+			<button class="btn" @click="startPreview">开启摄像头预览</button>
+			<!-- <button class="btn" @click="stopPreview">关闭摄像头预览</button> -->
+			<button class="btn" @click="switchCamera">切换摄像头</button>
+		</view>
+		
+    </view>
+</template>
+<script>
+    export default {
+        data() {
+            return {
+				height: 0,
+				mt: 0
+			}
+        },
+        onReady() {
+            // 注意：需要在onReady中 或 onLoad 延时
+            this.context = uni.createLivePusherContext("livePusher", this);
+			uni.getSystemInfo({
+				success: (res) => {
+				this.height = res["screenHeight"]
+				this.mt = res["statusBarHeight"]
+				}
+			})
+        },
+        methods: {
+            statechange(e) {
+                console.log("statechange:" + JSON.stringify(e));
+            },
+            netstatus(e) {
+                console.log("netstatus:" + JSON.stringify(e));
+            },
+            error(e) {
+                console.log("error:" + JSON.stringify(e));
+            },
+            start: function() {
+                this.context.start({
+                    success: (a) => {
+                        console.log("livePusher.start:" + JSON.stringify(a));
+                    }
+                });
+            },
+            close: function() {
+                this.context.close({
+                    success: (a) => {
+                        console.log("livePusher.close:" + JSON.stringify(a));
+                    }
+                });
+            },
+            snapshot: function() {
+                this.context.snapshot({
+                    success: (e) => {
+                        console.log(JSON.stringify(e));
+                    }
+                });
+            },
+            resume: function() {
+                this.context.resume({
+                    success: (a) => {
+                        console.log("livePusher.resume:" + JSON.stringify(a));
+                    }
+                });
+            },
+            pause: function() {
+                this.context.pause({
+                    success: (a) => {
+                        console.log("livePusher.pause:" + JSON.stringify(a));
+                    }
+                });
+            },
+            stop: function() {
+                this.context.stop({
+                    success: (a) => {
+                        console.log(JSON.stringify(a));
+                    }
+                });
+            },
+            switchCamera: function() {
+                this.context.switchCamera({
+                    success: (a) => {
+                        console.log("livePusher.switchCamera:" + JSON.stringify(a));
+                    }
+                });
+            },
+            startPreview: function() {
+                this.context.startPreview({
+                    success: (a) => {
+                        console.log("livePusher.startPreview:" + JSON.stringify(a));
+                    }
+                });
+            },
+            stopPreview: function() {
+                this.context.stopPreview({
+                    success: (a) => {
+                        console.log("livePusher.stopPreview:" + JSON.stringify(a));
+                    }
+                });
+            }
+        }
+    }
+</script>
+<style scoped lang="less">
+
+</style>
