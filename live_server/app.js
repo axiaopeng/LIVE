@@ -6,10 +6,13 @@ var bodyParser = require('koa-bodyparser')
 var admin = require('./route/admin/admin.js')
 var user = require('./route/user/user.js')
 
-
-
 const app = new Koa()
 const router = new Router()
+
+console.log(new Date().toLocaleString())
+require('./schedule')
+
+
 app.use(cors())
 app.use(bodyParser())
     // 验证token中间件

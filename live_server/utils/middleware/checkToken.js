@@ -7,26 +7,26 @@ async function check(ctx, next) {
     if (url === '/user/login_u' || url === '/user/regi_u') {
         await next();
     } else {
-        let token = ctx.request.headers["authorization"]
-
+        let token = ctx.request.headers["authorization"].split(' ')[1]
+     
         if (token) { //token存在
-            const tokenItem = jwt.verify(token, secretOrkey)
-            if (tokenItem) { //token是否被成功解码
-                //判断token是否过期
-                let { time, timeout } = tokenItem;
-                let data = new Date().getTime();
-                if (data - time <= timeout) { // 未过期
-                    await next();
-                } else { //过期
+            try { //判断token是否过期
+                // 未过期
+                jwt.verify(token, secretOrkey)
+                await next();
+            } catch (err) {
+                //token过期
+                if (err.message == 'jwt expired') {
                     ctx.body = {
                         status: 50001,
                         message: 'token 已过期'
                     }
-                }
-            } else { //该token无效
-                ctx.body = {
-                    status: 50002,
-                    message: '该token无效'
+                } else if (err.message == 'jwt malformed') {
+                    // token无效
+                    ctx.body = {
+                        status: 50002,
+                        message: '该token无效'
+                    }
                 }
             }
         } else { //如何token不存在

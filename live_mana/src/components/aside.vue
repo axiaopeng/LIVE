@@ -93,6 +93,7 @@ export default {
     act_item2(title, index, to) {
       this.active.two = title;
       this.active.one = index;
+ 
       this.$router.push({ path: to })
     }
   }
@@ -101,7 +102,7 @@ export default {
 <style lang='less' scoped>
 .aside {
   box-sizing: border-box;
-  height: 100%;
+  height: 100vh;
   width: 250px;
 
   //左侧菜单栏背景色

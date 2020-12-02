@@ -4,7 +4,7 @@
       <div class="fw">用户列表</div>
     </div>
     <el-table border :data="users">
-      <el-table-column prop="id" label="用户id" width="180"></el-table-column>
+      <el-table-column prop="_id" label="用户id" width="180"></el-table-column>
       <el-table-column
         prop="nickname"
         label="昵称"
@@ -17,7 +17,7 @@
       ></el-table-column>
       <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
       <el-table-column
-        prop="updatetime"
+        prop="updateTime"
         label="最近登录"
         width="180"
       ></el-table-column>
@@ -25,6 +25,7 @@
   </el-card>
 </template>
 <script>
+import { usersList} from '@/api/users'
 export default {
   data() {
     return {
@@ -33,8 +34,18 @@ export default {
     }
   },
   async mounted() {
-    const res = await this.$api.usermana.userList({
-      page: 1,
+    // const res = await this.$api.usermana.userList({
+    //   page: 1,
+    //   pageSize: 11,
+    //   sort: {
+    //     '_id': -1
+    //   },
+    //   by: {
+    //     username: '/^13/'
+    //   }
+    // })
+    const res  = await usersList({
+       page: 1,
       pageSize: 11,
       sort: {
         '_id': -1
@@ -43,7 +54,6 @@ export default {
         username: '/^13/'
       }
     })
-
     if (res.status == 200) {
       this.users = res.results.data
       this.count = res.results.count

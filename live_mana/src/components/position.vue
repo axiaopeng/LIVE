@@ -32,7 +32,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route.path)
+
     const path = this.$route.path;
     this.first_path = this.$route.path.split('/')[1];
     if (path.length == 3) {

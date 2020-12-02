@@ -1,37 +1,32 @@
 <template>
   <div id="app">
-    <Aside :role="[0, 1]"></Aside>
-    <div class="right">
-      <div class="position">当前位置</div>
-      <div class="content">
-        <router-view></router-view>
-      </div>
-    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
-import Aside from './components/aside'
+
 
 export default {
-  name: 'app',
-  components: {
-    Aside
-  }
+  name: 'app'
 }
 </script>
 
-<style>
+<style lang='less'>
 #app {
   margin: 0;
   padding: 0;
-  height: 100vh;
-  overflow-y: scroll;
-  display: flex;
+  min-height: 100vh;
+
 }
 body {
   margin: 0;
   padding: 0;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+
   font-size: 16px;
 }
 html {
@@ -40,22 +35,15 @@ html {
   font-size: 16px;
 }
 
-.right {
-  width: 100%;
-  height: 100%;
-  padding-left: 0;
-  margin-left: 0;
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
 }
-.right .position {
-  height: 80px;
-  background-color: #304156;
-  color: #fff;
-}
-.right .content {
-  overflow-y: scroll;
-  height: calc(100vh - 80px);
-}
-.fw {
-  font-weight: 600;
-}
+
 </style>

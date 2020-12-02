@@ -4,7 +4,8 @@ const User = require('../../utils/models/user')
 const { query, queryOne, save, update, updateOne, deleteOne, deleteMany } = require('../../utils/curd')
 const jwt = require('jsonwebtoken');
 const secretOrkey = 'secret';
-const { getDate } = require('../../utils/time')
+const { getDate } = require('../../utils/time');
+
 
 
 //@regi_u     --start 处理用户账号的接口
@@ -19,8 +20,8 @@ router.get('/regi_u', async(ctx) => {
 router.post('/regi_u', async(ctx) => {
     //解构赋值 获取注册账号信息  
     const { username, password } = ctx.request.body
-    console.log(ctx.request.body)
-        //校验 注册账号信息
+
+    //校验 注册账号信息
 
     //校验通过，创建账号
     // const user = new User({
@@ -30,7 +31,8 @@ router.post('/regi_u', async(ctx) => {
 
     const res = await save(User, {
         username,
-        password
+        password,
+        createTime: new Date()
     })
     ctx.body = {
         status: 200,
@@ -63,7 +65,7 @@ router.post('/login_u', async(ctx) => {
         if (user) { //如果该账号存在，检测密码是否正确
             if (user.password == password) { //密码正确的情况
                 //检验成功生成token，并返回用户信息
-                const token = jwt.sign({ username: username, password: password }, secretOrkey, { expiresIn: 3600 })
+                const token = jwt.sign({ username: username, password: password }, secretOrkey, { expiresIn: 86400 })
                 let info = null; // 用户信息
                 // 深度克隆一个对象
                 info = JSON.parse(JSON.stringify(user))
@@ -71,14 +73,10 @@ router.post('/login_u', async(ctx) => {
                 delete info.password //不能返回密码
 
                 // 同时更新用户登录时间
-                const q = await updateOne(User, { _id: user._id }, { updateTime: getDate('yyyy-mm-dd hh:mm:ss') })
-                console.log(q)
+                await updateOne(User, { _id: user._id }, { updateTime: getDate('yyyy-mm-dd hh:mm:ss') })
                 ctx.body = {
                     status: 200,
-                    userInfo: {
-                        token: 'Bearer ' + token,
-                        info: info
-                    }
+                    token: 'Bearer ' + token
                 }
             } else { //密码错误
                 ctx.body = {
@@ -95,7 +93,20 @@ router.post('/login_u', async(ctx) => {
     })
     //@login_u     --end
 
-
+//@info_u  --start
+router.get('/info_u', async(ctx) => {
+        let token = ctx.query.token
+        token = token.split(' ')[1]
+        const { username } = jwt.verify(token, secretOrkey)
+        let res = await queryOne(User, { username })
+        res = JSON.parse(JSON.stringify(res))
+        delete res.password
+        ctx.body = {
+            status: 200,
+            result: res
+        }
+    })
+    //@info_u  --end
 
 
 module.exports = router

@@ -1,12 +1,15 @@
 import Vue from 'vue'
+// 引入echarts图形表
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import './plugins/element.js'
-import api from './network/index'
+import './plugins/element.js' //按需引入elelment
+import './normalize.css' //样式初始化
+import * as echarts from 'echarts'
+import './permission' //导入登录权限路由判断
 
+Vue.prototype.$echarts = echarts
 
-Vue.prototype.$api = api
 Vue.config.productionTip = false
 
 new Vue({
