@@ -53,7 +53,7 @@ http.interceptors.response.use(
                     location.reload()
                 })
             })
-            return ''
+            return
         } else if (res.status === 400) {
             if (res.results.indexOf('11000') >= 0) {
                 res.results += '--该字段已被创建'
