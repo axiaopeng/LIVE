@@ -89,13 +89,13 @@ router.post('/login_u', async(ctx) => {
             } else { //密码错误
                 ctx.body = {
                     status: 400,
-                    error: '密码错误'
+                    results: '密码错误'
                 }
             }
         } else { //该用户不存在
             ctx.body = {
                 status: 400,
-                error: '该账号不存在'
+                results: '该账号不存在'
             }
         }
     })

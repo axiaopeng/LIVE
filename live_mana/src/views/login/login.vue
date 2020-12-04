@@ -72,17 +72,18 @@ export default {
             })
             this.$router.push({path: this.redirect ||'/'})
           }catch(error){
-            if(error.status===400){
-              this.$message({
-              type: 'error',
-              message: error.error
-            })
-            }else{  //其他未知错误
+            console.log(error)
+            // if(error.status===400){
+            //   this.$message({
+            //   type: 'error',
+            //   message: error.error
+            // })
+            // }else{  //其他未知错误
               this.$message({
               type: 'error',
               message: '登录失败'
             })
-            }
+            // }
            
           }     
           // this.loading.close()

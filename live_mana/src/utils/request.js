@@ -62,7 +62,7 @@ http.interceptors.response.use(
                 confirmButtonText: '确定',
                 type: 'error'
             })
-            return Promise.reject('error')
+            return '必须得返回一个字符串'
         } else if (res.errno === 504) {
             MessageBox.alert('更新数据已经失效，请刷新页面重新操作', '警告', {
                 confirmButtonText: '确定',
