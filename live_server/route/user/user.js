@@ -1,6 +1,7 @@
 //客户端路由
 const router = require('koa-router')();
 const User = require('../../utils/models/user')
+const Global = require('../../utils/models/global')
 const { query, queryOne, save, update, updateOne, deleteOne, deleteMany } = require('../../utils/curd')
 const jwt = require('jsonwebtoken');
 const secretOrkey = 'secret';
@@ -22,22 +23,24 @@ router.post('/regi_u', async(ctx) => {
     const { username, password } = ctx.request.body
 
     //校验 注册账号信息
-
-    //校验通过，创建账号
-    // const user = new User({
-    //     username,
-    //     password
-    // })
-
-    const res = await save(User, {
-        username,
-        password,
-        createTime: new Date()
-    })
-    ctx.body = {
-        status: 200,
-        result: res
+    try {
+        const res = await save(User, {
+            username,
+            password,
+            createTime: new Date()
+        })
+        console.log(res)
+        ctx.body = {
+            status: 200,
+            results: res
+        }
+    } catch (err) {
+        ctx.body = {
+            status: 400,
+            results: err
+        }
     }
+
 })
 router.put('/regi_u', async(ctx) => {
     const newDate = ctx.request.body
@@ -65,7 +68,7 @@ router.post('/login_u', async(ctx) => {
         if (user) { //如果该账号存在，检测密码是否正确
             if (user.password == password) { //密码正确的情况
                 //检验成功生成token，并返回用户信息
-                const token = jwt.sign({ username: username, password: password }, secretOrkey, { expiresIn: 86400 })
+                const token = jwt.sign({ username: username, password: password }, secretOrkey, { expiresIn: 43200 })
                 let info = null; // 用户信息
                 // 深度克隆一个对象
                 info = JSON.parse(JSON.stringify(user))
@@ -74,10 +77,15 @@ router.post('/login_u', async(ctx) => {
 
                 // 同时更新用户登录时间
                 await updateOne(User, { _id: user._id }, { updateTime: getDate('yyyy-mm-dd hh:mm:ss') })
+
                 ctx.body = {
-                    status: 200,
-                    token: 'Bearer ' + token
-                }
+                        status: 200,
+                        token: 'Bearer ' + token
+                    }
+                    // 访问人数自增
+                await updateOne(Global, {
+                    createTime: new RegExp("^" + getDate('yyyy-mm-dd'))
+                }, { $inc: { visitPeople: 1 } })
             } else { //密码错误
                 ctx.body = {
                     status: 400,

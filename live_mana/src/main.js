@@ -8,9 +8,13 @@ import './normalize.css' //样式初始化
 import * as echarts from 'echarts'
 import './permission' //导入登录权限路由判断
 
+import drag from '@/directive/el-drag-dialog/drag'
+Vue.directive('drag', drag)
+
 Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
+
 
 new Vue({
     router,

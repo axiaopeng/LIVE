@@ -2,9 +2,17 @@
   <div class="home">
     <Aside :role="[0, 1]"></Aside>
     <div class="right">
-      <div class="position">当前位置</div>
+        
+        <el-breadcrumb class="position" separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>活动管理</el-breadcrumb-item>
+          <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+          <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+        </el-breadcrumb>
       <el-container class="content">
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </el-container>
     </div>
   </div>
@@ -33,16 +41,27 @@ export default {
   margin-left: 0;
   overflow: hidden;
 }
-.right .position {
+.right .el-breadcrumb  {
   height: 60px;
+  line-height: 60px;
   background-color: #304156;
-  color: #fff;
+  padding-left: 20px;
+ /deep/ .el-breadcrumb__inner{
+     color: #eee;
+     &:hover{
+       color: #eee;
+     }
+  }
+  /deep/ .el-breadcrumb__inner.is-link{
+    color:#fff;
+    &:hover{
+      color: rgb(128, 149, 255);
+    }
+  }
 }
 .right .content {
    overflow: hidden;
   height: calc(100vh - 60px);
 }
-.fw {
-  font-weight: 600;
-}
+
 </style>

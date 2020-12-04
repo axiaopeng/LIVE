@@ -13,7 +13,7 @@ export function loginbyusername(username, password) {
     })
 }
 
-
+// 获取用户信息
 export function getuserinfo(token) {
     return req({
         url: '/user/info_u',

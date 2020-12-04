@@ -1,5 +1,6 @@
 <template>
-  <el-card shadow="always">
+  <el-main>
+    <el-card shadow="always">
     <div class="header" slot="header">
       <div class="fw">用户列表</div>
     </div>
@@ -23,6 +24,7 @@
       ></el-table-column>
     </el-table>
   </el-card>
+  </el-main>
 </template>
 <script>
 import { usersList} from '@/api/users'
@@ -63,7 +65,6 @@ export default {
 </script>
 <style lang='less' scoped>
 .el-card {
-  margin: 20px;
   min-height: calc(100vh - 124px);
   .header {
     // height: 40px;

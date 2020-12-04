@@ -24,14 +24,23 @@ http.interceptors.response.use(
     response => {
         const res = response.data
 
-        if (res.status === 50001) {
+        if (res.status === 50000) {
             MessageBox.alert(res.message, '提示', {
                 confirmButtonText: '确定',
                 type: 'warn'
             }).then(() => {
                 store.dispatch('FedLogOut').then(() => {
                     location.reload()
-
+                })
+            })
+            return Promise.reject('error')
+        } else if (res.status === 50001) {
+            MessageBox.alert(res.message, '提示', {
+                confirmButtonText: '确定',
+                type: 'warn'
+            }).then(() => {
+                store.dispatch('FedLogOut').then(() => {
+                    location.reload()
                 })
             })
             return Promise.reject('error')
@@ -42,12 +51,14 @@ http.interceptors.response.use(
             }).then(() => {
                 store.dispatch('FedLogOut').then(() => {
                     location.reload()
-
                 })
             })
             return
-        } else if (res.errno === 503) {
-            MessageBox.alert('请求业务目前未支持', '警告', {
+        } else if (res.status === 400) {
+            if (res.results.indexOf('11000') >= 0) {
+                res.results += '--该字段已被创建'
+            }
+            MessageBox.alert(res.results, '警告', {
                 confirmButtonText: '确定',
                 type: 'error'
             })

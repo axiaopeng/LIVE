@@ -10,10 +10,10 @@ const queryOne = (_Modal, _query = {}) => {
         });
     });
 };
-const query = (_Modal, _query) => {
+const query = (_Modal, _query = {}) => {
     return new Promise((resolve, reject) => {
-        let pageSize = _query.pageSize - 0 || 10;
-        let page = _query.page - 0 || 1;
+        let pageSize = (_query.pageSize && _query.pageSize - 0) || 10;
+        let page = (_query.page && _query.page - 0) || 1;
         let by = _query.by && JSON.parse(_query.by) || {};
         // 将正则字符串转为正则表达式
         for (let i in by) {
@@ -49,9 +49,9 @@ const save = (_Modal, _query) => {
     });
 };
 
-const update = (_model, oldData, newData) => {
+const update = (_model, _query, newData) => {
     return new Promise((resolve, reject) => {
-        _model.update(oldData, newData, (err, data) => {
+        _model.update(_query, newData, (err, data) => {
             if (err) {
                 reject(err);
             }
@@ -60,9 +60,9 @@ const update = (_model, oldData, newData) => {
     });
 };
 
-const updateOne = (_model, oldData, newData) => {
+const updateOne = (_model, _query, newData) => {
     return new Promise((resolve, reject) => {
-        _model.updateOne(oldData, newData, (err, data) => {
+        _model.updateOne(_query, newData, (err, data) => {
             if (err) {
                 reject(err);
             }

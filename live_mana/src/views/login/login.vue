@@ -5,7 +5,7 @@
       <transition  mode="out-in">
          <el-form v-if="login"  ref="form" :status-icon='true' :model='form'  key="box1" :rules="rules" :inline-message='true'>
             <el-form-item prop='username' >
-              <el-input v-model="form.username" placeholder='USERNAME'></el-input>
+              <el-input v-model="form.username" placeholder='PHONE'></el-input>
             </el-form-item>
             <el-form-item  prop='password'>
               <el-input v-model="form.password" show-password placeholder='PASSWORD' type='password'></el-input>
@@ -47,7 +47,8 @@ export default {
       },
       rules:{
         username: [
-          { required: true, message:'请输入用户名', trigger:'blur'},
+          { required: true, message:'请输入手机号', trigger:'blur'},
+          { pattern:/^0?(13[0-9]|14[0-9]|15[0-9]|16[0-9]|17[0-9]|18[0-9]|19[0-9])[0-9]{8}$/,message:'手机格式不正确',trigger: 'blur'},
           { min: 4,max:20, message:'长度在4到20个字符', trigger:'blur'}
         ],
         password: [

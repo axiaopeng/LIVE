@@ -7,8 +7,8 @@ async function check(ctx, next) {
     if (url === '/user/login_u' || url === '/user/regi_u') {
         await next();
     } else {
-        let token = ctx.request.headers["authorization"].split(' ')[1]
-     
+        let token = ctx.request.headers["authorization"] && ctx.request.headers["authorization"].split(' ')[1]
+
         if (token) { //token存在
             try { //判断token是否过期
                 // 未过期

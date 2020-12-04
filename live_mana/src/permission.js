@@ -41,7 +41,6 @@ router.beforeEach(async(to, from, next) => {
                         // perms = res.data.data.perms // 用户权限数组列表
                         // await store.dispatch('GenerateRoutes', { perms }) //根据perms 生成可访问的路由表
                         // router.addRoutes(store.getters.addRoutes) //动态添加可访问路由表
-                    console.log('水电费')
                     next({ replace: true })
                 } catch (err) {
                     // await store.dispatch('FedLogOut')

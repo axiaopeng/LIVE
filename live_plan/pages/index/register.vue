@@ -42,6 +42,18 @@ export default {
 			setTimeout(() => {
 				uni.navigateBack()
 			},1500)
+		}else if(res.status === 400){
+			if(res.results.errors){
+				uni.showToast({
+					icon: 'none',
+					title: res.results.errors.username.message
+				})
+			}else if(res.results.code&&res.results.code === 11000){
+				uni.showToast({
+					icon: 'none',
+					title: '该手机号已被创建'
+				})
+			}
 		}
 	  }
   }

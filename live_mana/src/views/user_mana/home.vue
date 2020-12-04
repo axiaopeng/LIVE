@@ -4,8 +4,8 @@
       <el-col :span='8'>
         <el-card>
           <div slot="header"
-               class="cardHeader">今日活跃客户</div>
-          <div id="visits" :style="{width: '300px', height: '300px'}"></div>
+               class="cardHeader">今日访问次数</div>
+          <div id="visits" class="visits" ></div>
         </el-card>
       </el-col>
       <el-col :span='8'>
@@ -18,52 +18,116 @@
         <el-card>
           <div slot="header"
                class="cardHeader">版本信息</div>
+          <div class="table">
+            <div class="table_row">
+              <div class="table_col_left">当前版本</div>
+              <div class="table_col_right">1.0</div>
+            </div>
+             <div class="table_row">
+              <div class="table_col_left">基于框架</div>
+              <div class="table_col_right">Vue+Vue-Router+VueX</div>
+            </div>
+            <div class="table_row">
+              <div class="table_col_left">开发人员</div>
+              <div class="table_col_right">卓泽鹏(微:13415614725)</div>
+            </div>
+          </div>
         </el-card>
       </el-col>
     </el-row>
   </el-main>
 </template>
 <script>
-
+import {getCharts } from '../../api/global'
 
 export default {
   data () {
-    return {}
+    return {
+      visitChart:null
+    }
   },
   mounted () {
     this.visitChartsee()
+    window.onresize = ()=> {
+        this.visitChart.resize()
+    }
+    // this.getviews()
   },
   methods: {
-    visitChartsee () {    
-        var visitChart = this.$echarts.init(document.querySelector('#visits'))
-
-   let option = {
+   async visitChartsee () {    
+      this.visitChart = this.$echarts.init(document.querySelector('#visits'))
+       let {results} = await getCharts() 
+       let data,X,arr
+       data = results.data.map(item => {
+          return  item.visitPeople
+       })
+       X = results.data.map(item => {
+         arr= item.createTime.split(' ')[0].split('-')
+          return arr[2]+'/'+arr[1] 
+       })
+       let option = {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: X
         },
         yAxis: {
           type: 'value'
         },
         series: [{
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          data: data,
           type: 'line',
           areaStyle: {}
         }]
       }
-      visitChart.setOption(option)
-
+      this.visitChart.setOption(option)
+     
     }
+    // ,
+  // async getviews(){
+  //   const res = await getFooterGame()
+  //   cosole.log(res)
+  // }
   }
 }
 </script>
 <style lang='less' scoped>
 .el-main {
   background-color: #f2f2f2;
-  .cardHeader {
-    line-height: 10px;
-    height: 10px;
+  .el-card{
+    width: 100%;
+    height: 300px;
+    .cardHeader {
+      line-height: 10px;
+     height: 10px;
+    }
+    .visits{
+      margin-top: -40px;
+      width: 100%;
+      height: 280px;
+    }
+    .table{
+      .table_row{
+        border-top:1px solid #e6e6e6;
+        border-left:1px solid #e6e6e6;
+        border-right:1px solid #e6e6e6;
+        display: flex;
+        line-height: 40px;
+        &:last-child{
+                  border-bottom:1px solid #e6e6e6;
+        }
+        .table_col_left{
+          border-right: 1px solid #e6e6e6;
+          flex: 2;
+          text-align: center;
+        }
+        .table_col_right{
+          flex: 5;
+          margin-left: 10px;
+        }
+      }
+    }
   }
+  
 }
 </style>

@@ -19,6 +19,18 @@ const routes = [{
                 name: 'usersInfo',
                 component: () =>
                     import ('@/views/user_mana/usersInfo.vue')
+            },
+            {
+                path: '/adminMana',
+                name: 'adminMana',
+                component: () =>
+                    import ('@/views/user_mana/adminMana.vue')
+            },
+            {
+                path: '/roleMana',
+                name: 'roleMana',
+                component: () =>
+                    import ('@/views/user_mana/roleMana.vue')
             }
         ]
     },

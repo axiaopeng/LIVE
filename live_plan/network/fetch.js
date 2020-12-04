@@ -1,4 +1,4 @@
-const baseUrl = 'http://192.168.0.101:4000' 
+const baseUrl = 'http://192.168.0.103:4000' 
 const timeout =  10000 //超时时间
 let  ajaxTimes = 0; // 用于处理同时发送异步代码，防止一次点击中有多次请求
 export const $ = (pars) => {

@@ -1,5 +1,8 @@
 <template>
   <div class="aside">
+    <div class="aside_item1">
+      <div class="title">LIVE AP</div>
+    </div>
     <div v-for="(item, index) in asideList" :key="index">
       <div class="aside_item1">
         <div
@@ -12,7 +15,10 @@
           </div>
           <div class="item1_title">{{ item.title }}</div>
           <div class="icon-right">
-            <i class="iconfont icon-jiantou9"></i>
+          <transition mode="out-in">    
+            <i key="i1" v-if="active.isactive != index" class="iconfont icon-xiangxia"></i>
+            <i key='i2' v-else class="iconfont icon-xiangshang"></i>
+          </transition>  
           </div>
         </div>
         <div
@@ -57,10 +63,16 @@ export default {
     // 判断多角色开始
     if (this.role.indexOf(0) != -1) {
       this.asideList.push({
-        title: '用户管理',
+        title: '用户',
         children: [{
-          title: '用户信息列表',
+          title: '系统用户',
           to: '/usersInfo'
+        },{
+          title: '后台管理员',
+          to: '/adminMana'
+        },{
+          title: '角色管理',
+          to: '/roleMana'
         }]
       })
     }
@@ -100,16 +112,28 @@ export default {
 }
 </script>
 <style lang='less' scoped>
+
+.v-enter-active,.v-leave-active{
+    transition: all .1s;
+}
+
 .aside {
   box-sizing: border-box;
   height: 100vh;
-  width: 250px;
+  width: 300px;
 
   //左侧菜单栏背景色
   background-color: rgb(34, 27, 46);
   overflow-y: scroll;
   cursor: pointer;
   .aside_item1 {
+    .title{
+   background-color: #304156;
+      color: #ffffff;
+      line-height: 60px;
+      text-align: center;
+      font-size: 24px;
+    }
     .aside_title {
       //1级菜单栏背景色
       background-color: #304156;

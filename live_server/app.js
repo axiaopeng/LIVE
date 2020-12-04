@@ -4,12 +4,13 @@ const cors = require('koa2-cors')
 
 var bodyParser = require('koa-bodyparser')
 var admin = require('./route/admin/admin.js')
+var global = require('./route/admin/global.js')
 var user = require('./route/user/user.js')
 
 const app = new Koa()
 const router = new Router()
 
-console.log(new Date().toLocaleString())
+console.log(new Date().toLocaleDateString())
 require('./schedule')
 
 
@@ -49,7 +50,7 @@ router.get('/', (ctx) => {
 
 router.use('/admin', admin.routes())
 router.use('/user', user.routes())
-
+router.use('/global', global.routes())
 
 
 app.use(router.routes()).use(router.allowedMethods())
