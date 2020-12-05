@@ -6,6 +6,18 @@ Vue.use(VueRouter)
 
 const routes = [{
         path: '/',
+        name: 'login',
+        component: () =>
+            import ('@/views/login/login.vue')
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: () =>
+            import ('@/views/login/login.vue')
+    },
+    {
+        path: '/a',
         name: 'Home',
         component: Home,
         children: [{
@@ -31,14 +43,14 @@ const routes = [{
                 name: 'roleMana',
                 component: () =>
                     import ('@/views/user_mana/roleMana.vue')
+            },
+            {
+                path: '/editUserInfo',
+                name: 'editUserInfo',
+                component: () =>
+                    import ('@/views/user/editUserInfo.vue')
             }
         ]
-    },
-    {
-        path: '/login',
-        name: 'login',
-        component: () =>
-            import ('@/views/login/login.vue')
     }
 
 ]

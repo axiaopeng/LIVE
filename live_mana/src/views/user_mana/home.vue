@@ -4,7 +4,7 @@
       <el-col :span='8'>
         <el-card>
           <div slot="header"
-               class="cardHeader">今日访问次数</div>
+               class="cardHeader">近五日系统访问次数</div>
           <div id="visits" class="visits" ></div>
         </el-card>
       </el-col>
@@ -83,11 +83,7 @@ export default {
       this.visitChart.setOption(option)
      
     }
-    // ,
-  // async getviews(){
-  //   const res = await getFooterGame()
-  //   cosole.log(res)
-  // }
+
   }
 }
 </script>

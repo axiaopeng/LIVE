@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="container">
-      <div class="mana-title">ERP后台管理系统v1.00</div>
+      <div class="mana-title">ERP后台管理系统v1.01</div>
       <transition  mode="out-in">
          <el-form v-if="login"  ref="form" :status-icon='true' :model='form'  key="box1" :rules="rules" :inline-message='true'>
             <el-form-item prop='username' >

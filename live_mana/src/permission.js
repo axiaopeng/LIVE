@@ -20,7 +20,6 @@ const whiteList = ['/login', '/auth-rediect'] //路由白名单 ，可修改配�
 
 router.beforeEach(async(to, from, next) => {
     NProgress.start() // 进度条开始加载
-    console.log('进度')
     if (getToken()) { // 判断是否有token
         // token存在
         if (to.path === '/login') {
@@ -44,8 +43,9 @@ router.beforeEach(async(to, from, next) => {
                     next({ replace: true })
                 } catch (err) {
                     // await store.dispatch('FedLogOut')
+
                     Message.error(err || '验证失败，请重新登录')
-                    next({ path: '/' })
+                    next(`/login?rediect=${to.path}`)
                 }
             } else {
 
