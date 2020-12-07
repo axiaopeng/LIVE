@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
 // import Home from '../views/Home.vue'
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
 const routes = [{
         path: '/login',
@@ -44,6 +44,12 @@ const routes = [{
                 name: 'editUserInfo',
                 component: () =>
                     import ('@/views/user/editUserInfo.vue')
+            },
+            {
+                path: '/editPwd',
+                name: 'editPwd',
+                component: () =>
+                    import ('@/views/user/editPwd.vue')
             }
         ]
     }
@@ -51,15 +57,16 @@ const routes = [{
 ]
 
 // 解决路由跳转重复
-const originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push(location) {
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
 }
 
 
 
-const router = new VueRouter({
+const router = new Router({
     mode: 'hash',
+    // scrollBehavior: () => ({ y: 0 }), 路由切换页面到达位置
     base: process.env.BASE_API,
     routes
 })

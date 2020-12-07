@@ -1,6 +1,7 @@
 const mongoose = require('../db')
 const Schema = mongoose.Schema;
 
+
 const demoSchema = new Schema({
     username: {
         type: String,
@@ -12,9 +13,16 @@ const demoSchema = new Schema({
         type: String,
         require: true,
     },
+    nickname: {
+        type: String
+    },
     role: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Role'
+    },
+    creator: {
         type: String,
-        default: 'COMMON_USER'
+        default: 'superAdmin'
     },
     email: {
         type: String
@@ -25,9 +33,6 @@ const demoSchema = new Schema({
     createTime: {
         type: String,
         require: true
-    },
-    perms: {
-        type: Array,
     }
 })
 

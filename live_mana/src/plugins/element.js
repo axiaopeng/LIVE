@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Container, Main, Header, Footer, Loading, Message, MessageBox, Button, Card, Table, TableColumn, Form, FormItem, Input, Row, Col, Popover, Breadcrumb, BreadcrumbItem, Dialog, Checkbox, CheckboxGroup, Pagination, Tooltip } from 'element-ui'
+import { Container, Main, Header, Footer, Loading, Message, MessageBox, Button, Card, Table, TableColumn, Form, FormItem, Input, Row, Col, Popover, Breadcrumb, BreadcrumbItem, Dialog, Checkbox, CheckboxGroup, Pagination, Tooltip, Select, Option } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Card)
@@ -23,6 +23,8 @@ Vue.use(CheckboxGroup)
 Vue.use(Pagination)
 Vue.use(Loading)
 Vue.use(Tooltip)
+Vue.use(Select)
+Vue.use(Option)
 
 
 Vue.prototype.$message = Message;

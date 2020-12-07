@@ -20,7 +20,8 @@ export default {
     return {
 		regi:{
 			username: null,
-			password:null
+			password:null,
+			creator: '5fc85e78e24ba247040a096e'
 		},
 		check: null
     }

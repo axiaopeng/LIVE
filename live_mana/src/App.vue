@@ -33,6 +33,10 @@ html {
   margin: 0;
   padding: 0;
   font-size: 16px;
+  //防止transition动画溢出页面
+  width: 100vw;
+  height:100vh;
+  overflow:hidden;
 }
 
 .clearfix {

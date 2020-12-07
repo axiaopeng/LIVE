@@ -20,13 +20,12 @@ router.get('/regi_u', async(ctx) => {
 })
 router.post('/regi_u', async(ctx) => {
     //解构赋值 获取注册账号信息  
-    const { username, password } = ctx.request.body
+    const body = ctx.request.body
 
     //校验 注册账号信息
     try {
         const res = await save(User, {
-            username,
-            password,
+            ...body,
             createTime: new Date()
         })
         console.log(res)
@@ -37,18 +36,25 @@ router.post('/regi_u', async(ctx) => {
     } catch (err) {
         ctx.body = {
             status: 400,
-            results: err
+            results: err.message
         }
     }
 
 })
 router.put('/regi_u', async(ctx) => {
-    const newDate = ctx.request.body
-    const res = await updateOne(User, { _id: newDate.id }, newDate)
-    ctx.body = {
-        status: 200,
-        results: res
+    try {
+        const res = await updateOne(User, { _id: ctx.request.body._id }, ctx.request.body)
+        ctx.body = {
+            status: 200,
+            results: res
+        }
+    } catch (err) {
+        ctx.body = {
+            status: 400,
+            results: err.message
+        }
     }
+
 })
 router.delete('/regi_u', async(ctx) => {
         const { id } = ctx.request.body
@@ -101,7 +107,7 @@ router.post('/login_u', async(ctx) => {
     })
     //@login_u     --end
 
-//@info_u  --start
+//@info_u  --start 获取用户信息
 router.get('/info_u', async(ctx) => {
         let token = ctx.query.token
         token = token.split(' ')[1]

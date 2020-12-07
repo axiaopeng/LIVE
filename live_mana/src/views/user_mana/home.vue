@@ -39,12 +39,14 @@
 </template>
 <script>
 import {getCharts } from '../../api/global'
-
+ import 'echarts/lib/chart/bar'
+  import 'echarts/lib/chart/line'
+ 
 export default {
   data () {
     return {
       visitChart:null
-    }
+   }
   },
   mounted () {
     this.visitChartsee()
@@ -55,35 +57,35 @@ export default {
   },
   methods: {
    async visitChartsee () {    
-      this.visitChart = this.$echarts.init(document.querySelector('#visits'))
+     
        let {results} = await getCharts() 
        let data,X,arr
-       data = results.data.map(item => {
+       data =  results.data.map(item => {
           return  item.visitPeople
        })
        X = results.data.map(item => {
          arr= item.createTime.split(' ')[0].split('-')
           return arr[2]+'/'+arr[1] 
        })
-       let option = {
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: X
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [{
-          data: data,
-          type: 'line',
-          areaStyle: {}
-        }]
-      }
-      this.visitChart.setOption(option)
-     
+ 
+        let option = {
+             xAxis: {
+                 type: 'category',
+                 boundaryGap: false,
+                 data: X
+             },
+             yAxis: {
+                 type: 'value'
+             },
+             series: [{
+                 data: data,
+                 type: 'line',
+                 areaStyle: {}
+             }]
+           };
+      this.visitChart = this.$echarts.init(document.querySelector('#visits'))
+        this.visitChart.setOption(option)
     }
-
   }
 }
 </script>

@@ -220,19 +220,13 @@ export default {
     // 修改角色
     async editRole(){    
       const res = await editRole(this.roleForm)
-      if(res.status ===200){
+
         this.$message({
           type: 'success',
           message: '修改成功'
         })
 
-        this.init()
-      }else{
-        this.$message({
-            type: 'warn',
-            message: '操作过程出现问题'
-          })
-      }
+      this.init(this.params)
       this.dialogVisible = false;
     },
     // 判断是否为管理员，是则不让其被选中

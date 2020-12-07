@@ -120,7 +120,7 @@ export default {
 .aside {
   box-sizing: border-box;
   height: 100vh;
-  width: 300px;
+  width: 260px;
 
   //左侧菜单栏背景色
   background-color: rgb(34, 27, 46);

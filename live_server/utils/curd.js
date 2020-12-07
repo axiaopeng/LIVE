@@ -11,14 +11,32 @@ const queryOne = (_Modal, _query = {}) => {
     });
 };
 const query = (_Modal, _query = {}) => {
+
     return new Promise((resolve, reject) => {
         let pageSize = (_query.pageSize && _query.pageSize - 0) || 10;
         let page = (_query.page && _query.page - 0) || 1;
         let by = _query.by && JSON.parse(_query.by) || {};
-        // 将正则字符串转为正则表达式
-        for (let i in by) {
-            by[i] = eval(by[i])
+
+        let populate = _query['populate[]'] && arrJSON(_query['populate[]']) || []
+
+        // 转get请求数组参数为对象
+        function arrJSON(arr) {
+            //数组长度为1时,传递过来的是一个对象,需要转为数组
+            if (typeof(arr) == 'string') {
+                arr = [arr]
+            }
+            arr = arr.map(item => {
+                return JSON.parse(item)
+            })
+            return arr
         }
+
+        // 将正则字符串转为正则表达式
+
+        // for (let i in by) {
+        //     by[i] = eval(by[i])
+        // }
+
         _Modal.find(by, { password: 0 }, {
             skip: (page - 1) * pageSize,
             limit: pageSize,
@@ -30,7 +48,7 @@ const query = (_Modal, _query = {}) => {
             // 获取数据总数 countDocuments(by)通过查询条件获取总数
             const count = await _Modal.countDocuments(by)
             resolve({ data: res, count })
-        })
+        }).populate(populate)
 
 
     });

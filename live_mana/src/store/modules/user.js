@@ -1,8 +1,10 @@
 import { loginbyusername, getuserinfo } from '@/api/login'
 import { getToken, removeToken, setToken } from '@/utils/auth'
+import router, { resetRouter } from '@/router'
 
 const user = {
     state: {
+        _id: '',
         user: '',
         token: getToken(),
         name: '',
@@ -13,6 +15,15 @@ const user = {
     mutations: {
         SET_TOKEN: (state, token) => {
             state.token = token
+        },
+        SET_ROLES: (state, roles) => {
+            state.roles = roles
+        },
+        SET_PERMS: (state, perms) => {
+            state.perms = perms
+        },
+        SET_ID: (state, _id) => {
+            state._id = _id
         }
     },
     actions: {
@@ -39,13 +50,27 @@ const user = {
         GetUserInfo({ commit, state }) {
             return new Promise((resolve, reject) => {
                 getuserinfo(state.token).then(response => {
-                    // commit('SET_ROLES', data.roles)
-                    // commit('SET_ROLES', data.roles)
-                    // commit('SET_ROLES', data.roles)
+                    if (response.status === 200) {
+                        commit('SET_ID', response.result._id)
+                            // commit('SET_ROLES', data.roles)
+                            // commit('SET_ROLES', data.roles)
+                    }
+
                     resolve(response)
                 }).catch(error => {
                     reject(error)
                 })
+            })
+        },
+        // 登出
+        LogOut({ commit }) {
+            return new Promise((resolve) => {
+                commit('SET_TOKEN', '')
+                commit('SET_ROLES', [])
+                commit('SET_PERMS', [])
+                removeToken()
+                    // resetRouter()
+                resolve('logout ok')
             })
         },
         // 强制登出

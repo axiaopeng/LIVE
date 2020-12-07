@@ -33,7 +33,7 @@ http.interceptors.response.use(
                     location.reload()
                 })
             })
-            return Promise.reject('error')
+
         } else if (res.status === 50001) {
             MessageBox.alert(res.message, '提示', {
                 confirmButtonText: '确定',
@@ -43,7 +43,7 @@ http.interceptors.response.use(
                     location.reload()
                 })
             })
-            return Promise.reject('error')
+
         } else if (res.status === 50002) {
             MessageBox.alert(res.message, '提示', {
                 confirmButtonText: '确定',
@@ -62,7 +62,7 @@ http.interceptors.response.use(
                 confirmButtonText: '确定',
                 type: 'error'
             })
-            return '必须得返回一个字符串'
+            return res
         } else if (res.errno === 504) {
             MessageBox.alert('更新数据已经失效，请刷新页面重新操作', '警告', {
                 confirmButtonText: '确定',
@@ -84,6 +84,12 @@ http.interceptors.response.use(
         } else if (res.errno !== 0 && res.errno != undefined) {
             // 非5xx的错误属于业务错误，留给具体页面处理
             return Promise.reject(response)
+        } else if (res.status != 200) {
+            console.log('ss')
+            message({
+                type: 'warn',
+                message: '操作过程出现问题'
+            })
         } else {
 
             return response.data

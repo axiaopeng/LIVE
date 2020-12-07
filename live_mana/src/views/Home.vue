@@ -18,7 +18,7 @@
                  <div class="box">
                    <div @click="routerTo('/editUserInfo')" class="box_item">基本资料</div>
                    <div @click="routerTo('/editPwd')" class="box_item">修改密码</div>
-                   <div @click="routerTo('/editUserInfo')" class="box_item">退出</div>
+                   <div @click="logout"  class="box_item">退出</div>
                  </div>
                </div>
                <div>请修改昵称</div>
@@ -31,9 +31,12 @@
         </div>
       </el-header>  
       <el-container class="content">
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
+        <transition :name="transitionName">
+          <keep-alive>
+            <router-view class="a"></router-view>
+          </keep-alive>
+        </transition>
+        
       </el-container>
     </div>
   </div>
@@ -49,11 +52,30 @@ export default {
   },
   data(){
     return{
-      isBig: false
+      isBig: false,
+      transitionName: '',
+      pageStatus: 1
+    }
+  },
+  watch:{
+    //使用watch 监听$router的变化
+    $route(to, from){
+      //如果to索引大于from索引,判断为前进状态,反之则为后退状态
+      if(this.pageStatus === 0){
+         this.transitionName = 'slide-right'
+         this.pageStatus =1
+      }else{
+          this.transitionName = 'slide-left'
+      }
+
     }
   },
   created() {
+    var that = this
     window.addEventListener('fullscreenchange',this.quit) 
+    window.addEventListener('popstate', () => {
+      that.pageStatus = 0  
+    })
   },
   beforeDestory(){
     window.removeEventListener('fullscreenchange',this.quit)
@@ -102,15 +124,54 @@ export default {
       this.$router.push({
         path: url
       })
+    },
+    async logout(){
+      await this.$store.dispatch('LogOut')
+      this.$message({
+        type: 'success',
+        message: '退出登录成功，即将返回登录页面'
+      })
+      setTimeout(()=>{
+        location.reload()
+      },1000)
     }
     
   }
 }
 </script>
 <style lang='less' scoped>
+// 路由页面切换过渡动画开始
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+ will-change: transform;
+ transition: all 500ms;
+ position: absolute;
+
+}
+.slide-right-enter {
+ opacity: 0;
+ transform: translate(0, 100%);
+}
+.slide-right-leave-active {
+ opacity: 0;
+transform: translate(0, -100%);
+}
+.slide-left-enter {
+ opacity: 0;
+transform: translate(0, -50%);
+}
+.slide-left-leave-active {
+ opacity: 0;
+transform: translate(0, 50%);
+}
+// 路由页面切换过渡动画结束
 .home{
   width: 100%;
   height: 100%;
+  overflow: hidden;
+
   display: flex;
 }
 .box{
@@ -130,7 +191,7 @@ export default {
   }
 }
 .right {
-  width: 100%;
+  flex:1;
   height: 100%;
   padding-left: 0;
   margin-left: 0;
@@ -185,8 +246,13 @@ export default {
            cursor: pointer!important;
          }
 .content {
-   overflow: hidden;
+  overflow: hidden;
   height: calc(100vh - 60px);
+  //需要给定实际宽度，路由页面切换时会先出现实际宽度再适应
+  .a{ 
+    height: 100%;
+    width: calc(100vw - 260px); 
+  }
 }
 }
 
