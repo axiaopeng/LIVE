@@ -1,6 +1,7 @@
 const Koa = require('koa')
 const Router = require('koa-router')
 const cors = require('koa2-cors')
+const compression = require('compression')
 
 var bodyParser = require('koa-bodyparser')
 var admin = require('./route/admin/admin.js')
@@ -16,6 +17,7 @@ require('./wsocket')
 
 app.use(cors())
 app.use(bodyParser())
+app.use(compression()) //开启gzip
     // 验证token中间件
 const check = require('./utils/middleware/checkToken')
 app.use(check)
