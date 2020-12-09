@@ -95,11 +95,15 @@ export default {
       roleForm:{
         roleName: null,
         powers: [],
-        describe: null
+        describe: null,
+        creator: this.$store.state.user._id
       },
       params:{
         page: 1,
-        pageSize: 10
+        pageSize: 10,
+        by:{
+          creator: this.$store.state.user._id
+        }
       },
       roleRules:{},
       deleteBox:null,
@@ -132,6 +136,9 @@ export default {
     }
   },
   mounted(){  
+    this.init(this.params)
+  },
+  activated(){
     this.init(this.params)
   },
   methods: {

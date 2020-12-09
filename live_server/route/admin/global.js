@@ -5,9 +5,7 @@ const Role = require('../../utils/models/role');
 const { query, queryOne, save, update, updateOne, deleteOne, deleteMany } = require('../../utils/curd')
 
 router.get('/charts', async(ctx) => {
-    const res = await query(Global, {
-        pageSize: 5
-    })
+    const res = await query(Global, ctx.request.query)
     ctx.body = {
         status: 200,
         results: res
@@ -45,6 +43,7 @@ router.put('/role', async(ctx) => {
     }
 })
 router.get('/role', async(ctx) => {
+
     try {
         const res = await query(Role, ctx.query)
         ctx.body = {

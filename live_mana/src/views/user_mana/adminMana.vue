@@ -21,8 +21,8 @@
            <el-form-item label='员工名称' prop='nickname'>
              <el-input type='text' v-model="userForm.nickname"></el-input>
            </el-form-item>
-           <el-form-item label='分配角色' prop='role'>
-              <el-select v-model="userForm.role" placeholder="请选择角色">
+           <el-form-item label='分配角色' prop='roles'>
+              <el-select @change='show' style="width:100%" v-model="userForm.roles" multiple collapse-tags placeholder="请选择角色">
                  <el-option
                    v-for="item in roles"
                    :key="item._id"
@@ -62,7 +62,14 @@
         label="员工"
         min-width="100"
       ></el-table-column>
-      <el-table-column prop="role.roleName" label="角色" min-width="100"></el-table-column>
+      <el-table-column  label="角色" min-width="100">
+         <template slot-scope="scope" >
+           
+            <span v-for="(item,index) in scope.row.roles" :key='item._id'>
+              {{item.roleName}}{{ scope.row.roles.length-1>index?'、':''}}
+            </span>
+         </template>
+      </el-table-column>
        <el-table-column  min-width="120" label='操作'>
           <template slot-scope="scope" >
             <el-button   type='primary' icon='el-icon-edit' @click='editDialog(scope.row)' >编辑</el-button>
@@ -101,7 +108,7 @@ export default {
         username: null,
         password: null,
         nickname: null,
-        role: null,
+        roles: [],
         creator: this.$store.state.user._id // 创建者ID必须传，否则无法通过索引获取
       },
       params:{   //表格数据请求的参数
@@ -114,9 +121,9 @@ export default {
           creator: this.$store.state.user._id
         },
         populate:[{
-          path:'role',   //对应mongodb集合中对应字段名称
+          path:'roles',   //对应mongodb集合中对应字段名称
           select: {roleName: 1},  //填充关联集合中哪个字段 也可以用数组对象形式 [{roleName: 1}]
-          // model: 'Role',    //关联哪个集合, 没有指定就会使用Schema的ref
+          model: 'Role',    //关联哪个集合, 没有指定就会使用Schema的ref
           // match: {} ,    //查询条件
           //options    //  排序,条数限制等等同 mongodb中 find()
         }]
@@ -136,7 +143,7 @@ export default {
           { required: true, message: '请输入员工昵称', trigger:'blur'},
           { pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+$/,message:'昵称不能输入特殊字符',trigger: 'blur'}    
         ],
-        role: [
+        roles: [
            { required: true, message: '请选择角色', trigger:'blur'},         
         ]
       }, //员工表单校验规则
@@ -147,17 +154,27 @@ export default {
   mounted(){  
     this.init(this.params)
   },
+  activated(){
+    this.init(this.params)
+  },
   methods: {
+    show(){
+    console.log(this.userForm)
+    },
      // 页面初始化
    async init(obj){
      this.loading = true
    const {results:{count,data}}= await  usersList(obj)
     const roleResults = await getRole({
      page: 1,
-     pageSize: 50 //防止用户角色类型没有全部获取
-   })
+     pageSize: 50, //防止用户角色类型没有全部获取
+     by:{
+       creator: this.$store.state.user._id
+     }
+  })
     this.roles = roleResults.results.data
     this.tableData ={count,data}
+    console.log(this.tableData.data)
     this.loading = false
     },
     // 添加弹框显示
@@ -195,9 +212,11 @@ export default {
     },
     // 添加用户
     async addUser(formName){    
+  
        this.$refs[formName].validate( async (valid) => {
          if(valid){
            const res = await addUser(this.userForm)
+           console.log(res)
            if(res.status ===200){
              this.$message({
                type: 'success',

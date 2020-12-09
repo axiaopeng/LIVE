@@ -11,7 +11,8 @@
       <el-col :span='8'>
         <el-card>
           <div slot="header"
-               class="cardHeader">今日代办事宜</div>
+               class="cardHeader">最近七日温度变化(城市：{{city}})</div>
+          <div id="weather" class="weather"></div>     
         </el-card>
       </el-col>
       <el-col :span='8'>
@@ -38,28 +39,39 @@
   </el-main>
 </template>
 <script>
-import {getCharts } from '../../api/global'
+import {getCharts,getWeather } from '../../api/global'
  import 'echarts/lib/chart/bar'
-  import 'echarts/lib/chart/line'
- 
+ import 'echarts/lib/chart/line'
+ require('echarts/lib/component/tooltip')
+ require('echarts/lib/component/legend')
+ require('echarts/lib/component/grid')
+//  require('echarts/lib/component/toolbox')
 export default {
   data () {
     return {
-      visitChart:null
+      visitChart:null,  // 访问Echart对象
+      weatherChart: null, //天气Echart对象
+      city: null
    }
   },
   mounted () {
     this.visitChartsee()
     window.onresize = ()=> {
         this.visitChart.resize()
+        this.weatherChart.resize()
     }
     // this.getviews()
   },
   methods: {
    async visitChartsee () {    
-     
-       let {results} = await getCharts() 
-       let data,X,arr
+    //  访问数据渲染开始
+       let {results} = await getCharts({ page: 1,
+        pageSize: 5,
+        sort:{
+          _id: -1
+        }})
+    results.data=  results.data.reverse()
+       let data,X,arr,visitOpt
        data =  results.data.map(item => {
           return  item.visitPeople
        })
@@ -67,8 +79,8 @@ export default {
          arr= item.createTime.split(' ')[0].split('-')
           return arr[2]+'/'+arr[1] 
        })
- 
-        let option = {
+    
+       visitOpt = {
              xAxis: {
                  type: 'category',
                  boundaryGap: false,
@@ -84,7 +96,80 @@ export default {
              }]
            };
       this.visitChart = this.$echarts.init(document.querySelector('#visits'))
-        this.visitChart.setOption(option)
+        this.visitChart.setOption(visitOpt)
+        //  访问数据渲染结束
+        // 天气数据渲染开始
+        getWeather().then(res => {
+            console.log(res.data)
+            this.city = res.data.city   //当前ip城市
+            let lowTem,highTem,dates,weatherOpt   // 低温，高温,日期
+            lowTem = res.data.data.map(item => {
+              return item.tem2
+            })
+            highTem = res.data.data.map(item => {
+              return item.tem1
+            })
+            dates = res.data.data.map(item => {
+              return item.day.split('（')[0]
+            })
+        weatherOpt = {
+              tooltip: {
+                  trigger: 'axis'
+              },
+              legend: {
+                  data: ['低温', '高温'],
+                  top: 20
+              },
+              grid: {
+                  left: '0%',
+                  right: '0%',
+                  bottom: '3%',
+                  containLabel: true
+              },
+              toolbox: {
+                  feature: {
+                      saveAsImage: {}
+                  }
+              },
+              xAxis: {
+                  type: 'category',
+                  boundaryGap: ['10%'],  //x轴两边留空
+                  data: dates
+              },
+              yAxis: {
+                  type: 'value',
+                  axisLine:{   //显示y轴
+                    show:true
+                  },
+                  axisTick:{    //显示刻度
+                    show: true
+                  },
+                  boundaryGap: ['0%','10%'] //y轴两边留空
+              },
+              series: [
+                  {
+                      name: '低温',
+                      type: 'line',          
+                      data: lowTem,
+                      itemStyle : { normal: {label : {show: true,position:['30%','300%'], formatter:function(v,t,c){
+                          return v.value +'℃'
+                      }}}}
+                  },
+                  {
+                      name: '高温',
+                      type: 'line',
+                      data: highTem,
+                      itemStyle : { normal: {label : {show: true,position:['30%','-300%'], formatter:function(v,t,c){
+                          return v.value +'℃'
+                      }}}}
+                  }
+              ]
+          };
+
+        this.weatherChart = this.$echarts.init(document.querySelector('#weather'))
+        this.weatherChart.setOption(weatherOpt)
+        })
+        // 天气数据渲染结束
     }
   }
 }
@@ -103,6 +188,11 @@ export default {
       margin-top: -40px;
       width: 100%;
       height: 280px;
+    }
+    .weather{
+       margin-top: -30px;
+      width: 100%;
+      height: 240px;
     }
     .table{
       .table_row{

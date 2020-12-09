@@ -152,19 +152,19 @@ export default {
 }
 .slide-right-enter {
  opacity: 0;
- transform: translate(0, 100%);
+ transform: translate(50%, 50%);
 }
 .slide-right-leave-active {
  opacity: 0;
-transform: translate(0, -100%);
+transform: translate(50%, -50%);
 }
 .slide-left-enter {
  opacity: 0;
-transform: translate(0, -50%);
+transform: translate(50%, -50%);
 }
 .slide-left-leave-active {
  opacity: 0;
-transform: translate(0, 50%);
+transform: translate(50%, 50%);
 }
 // 路由页面切换过渡动画结束
 .home{
@@ -251,8 +251,11 @@ transform: translate(0, 50%);
   //需要给定实际宽度，路由页面切换时会先出现实际宽度再适应
   .a{ 
     height: 100%;
-    width: calc(100vw - 260px); 
+    width: calc(100vw - 260px);   
+    overflow-y: scroll;
   }
+
+ 
 }
 }
 

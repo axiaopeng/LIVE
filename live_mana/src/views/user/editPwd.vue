@@ -1,5 +1,7 @@
 <template>
-  <div>修改密码页面</div>
+  <el-main>
+    
+  </el-main>
 </template>
 <script>
 export default {

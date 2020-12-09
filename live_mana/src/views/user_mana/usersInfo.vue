@@ -259,7 +259,9 @@ export default {
 <style lang='less' scoped>
 .el-main{
   background-color: #b8b8b8;
-  .el-card{
+
+  .el-card{   
+      margin-bottom: 50px;
     .btn{
       margin-right: 10px!important;
     }

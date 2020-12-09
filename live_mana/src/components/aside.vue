@@ -78,10 +78,10 @@ export default {
     }
     if (this.role.indexOf(1) != -1) {
       this.asideList.push({
-        title: '用户管理',
+        title: '更多工具',
         children: [{
-          title: '用户信息列表',
-          to: '/usersInfo'
+          title: '即时通讯',
+          to: '/msn'
         }]
       })
     }

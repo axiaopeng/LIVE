@@ -50,7 +50,13 @@ const routes = [{
                 name: 'editPwd',
                 component: () =>
                     import ('@/views/user/editPwd.vue')
-            }
+            },
+            {
+                path: '/msn',
+                name: 'msn',
+                component: () =>
+                    import ('@/views/tools/msn.vue')
+            },
         ]
     }
 

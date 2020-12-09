@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Container, Main, Header, Footer, Loading, Message, MessageBox, Button, Card, Table, TableColumn, Form, FormItem, Input, Row, Col, Popover, Breadcrumb, BreadcrumbItem, Dialog, Checkbox, CheckboxGroup, Pagination, Tooltip, Select, Option } from 'element-ui'
+import { Tag, Container, Main, Header, Footer, Loading, Message, MessageBox, Button, Card, Table, TableColumn, Form, FormItem, Input, Row, Col, Popover, Breadcrumb, BreadcrumbItem, Dialog, Checkbox, CheckboxGroup, Pagination, Tooltip, Select, Option, Aside, TabPane, Tabs, Collapse, CollapseItem } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Card)
@@ -25,6 +25,12 @@ Vue.use(Loading)
 Vue.use(Tooltip)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Aside)
+Vue.use(TabPane)
+Vue.use(Tabs)
+Vue.use(Tag)
+Vue.use(Collapse)
+Vue.use(CollapseItem)
 
 
 Vue.prototype.$message = Message;

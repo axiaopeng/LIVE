@@ -5,7 +5,6 @@ const demoSchema = new Schema({
     roleName: {
         type: String,
         required: true,
-        unique: [true, '该角色已被创建'],
         validate: {
             validator: value => {
                 let pattern = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im
@@ -20,6 +19,10 @@ const demoSchema = new Schema({
     },
     describe: {
         type: String
+    },
+    creator: {
+        type: String,
+        require: true
     }
 })
 

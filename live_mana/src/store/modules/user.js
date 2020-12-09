@@ -5,6 +5,7 @@ import router, { resetRouter } from '@/router'
 const user = {
     state: {
         _id: '',
+        myImg: '',
         user: '',
         token: getToken(),
         name: '',
@@ -55,7 +56,6 @@ const user = {
                             // commit('SET_ROLES', data.roles)
                             // commit('SET_ROLES', data.roles)
                     }
-
                     resolve(response)
                 }).catch(error => {
                     reject(error)

@@ -31,12 +31,7 @@ router.beforeEach(async(to, from, next) => {
                 let perms
                 try {
                     const res = await store.dispatch('GetUserInfo') //通过token请求头获取user_info
-                        // if (res.status === 50001) {
-                        //     Message({
-                        //         type: 'warning',
-                        //         message: res.message
-                        //     })
-                        // }
+ 
                         // perms = res.data.data.perms // 用户权限数组列表
                         // await store.dispatch('GenerateRoutes', { perms }) //根据perms 生成可访问的路由表
                         // router.addRoutes(store.getters.addRoutes) //动态添加可访问路由表

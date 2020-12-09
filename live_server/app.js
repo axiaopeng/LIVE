@@ -12,7 +12,7 @@ const router = new Router()
 
 console.log(new Date().toLocaleDateString())
 require('./schedule')
-
+require('./wsocket')
 
 app.use(cors())
 app.use(bodyParser())

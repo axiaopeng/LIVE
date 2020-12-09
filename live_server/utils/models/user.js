@@ -16,9 +16,8 @@ const demoSchema = new Schema({
     nickname: {
         type: String
     },
-    role: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Role'
+    roles: {
+        type: [Schema.Types.ObjectId]
     },
     creator: {
         type: String,

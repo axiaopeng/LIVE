@@ -1,10 +1,24 @@
 import req from "@/utils/request";
 import axios from 'axios'
 // 获取首页访问次数数据
-export function getCharts() {
+export function getCharts(params) {
     return req({
         url: '/global/charts',
-        method: 'get'
+        method: 'get',
+        params
+    })
+}
+// 获取天气数据
+export function getWeather() {
+    return axios({
+        url: 'https://v0.yiketianqi.com/api',
+        method: 'get',
+        params: {
+            version: 'v9',
+            appid: '37376872',
+            appsecret: 'WV37bjCR',
+            vue: 1
+        }
     })
 }
 
