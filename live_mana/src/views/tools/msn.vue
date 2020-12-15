@@ -36,74 +36,6 @@
                       <img src="@/assets/cat.jpg" alt="">
                       <div class="memberName">益酬勤</div>
                     </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
-                    <div class="member">
-                      <img src="@/assets/cat.jpg" alt="">
-                      <div class="memberName">益酬勤</div>
-                    </div>
                   </div>
                 <!-- </transition> -->
                 
@@ -117,7 +49,7 @@
                   <i class="el-icon-video-camera-solid"></i>
                 </div>
                 <el-input resize='none' @change='sendInput' type="textarea" v-model='ctx.msg'></el-input>
-                <div><el-tag @click="send" effect="dark" type='info' >发送(回车)</el-tag></div>
+                <div><el-tag @click="send('msg')" effect="dark" type='info' >发送(回车)</el-tag></div>
               </div>
             </el-card>
           </el-tab-pane>
@@ -132,49 +64,22 @@
           </div>
           <div class="username">啊卓</div>
         </header>
-         <el-tabs v-model='isactive' stretch>
+         <el-tabs v-model="isactive" stretch>
            <el-tab-pane  name="first">
              <i slot="label" class="iconfont icon-user"></i>
              <div class="main">
                <el-collapse>
-               <el-collapse-item >
+               <el-collapse-item v-for="item in myqq.friends" :key="item.groupName" >
                  <template slot="title"> 
-                   列表1
+                   {{item.groupName+"("+item.friend.length+")"}}
                  </template>
-                 <div class="friend" @click="addTab('item',0)">
+                 <div class="friend" v-for="item1 in item.friend" :key="item1.id" @click="addTab(item1,0)">
                    <div class="img">
                      <img src="@/assets/cat.jpg" alt="">
                    </div>
-                   <div class="username">啊卓</div>
+                   <div class="username">{{item1.nickname}}</div>
+                   <el-badge  :max='99'/>
                  </div>
-                 <div class="friend" @click='addTab'>
-                   <div class="img">
-                     <img src="@/assets/cat.jpg" alt="">
-                   </div>
-                   <div class="username">啊卓</div>
-                 </div>
-                 <div class="friend" @click='addTab'>
-                   <div class="img">
-                     <img src="@/assets/cat.jpg" alt="">
-                   </div>
-                   <div class="username">啊卓</div>
-                 </div>
-               </el-collapse-item>
-               <el-collapse-item>
-                 <template slot="title"> 
-                   列表2
-                 </template>
-                 <div>sdfsdfsdf</div>
-                 <div>sdfsdfsdf</div>
-                 <div>sdfsdfsdf</div>
-               </el-collapse-item>
-               <el-collapse-item>
-                 <template slot="title"> 
-                   列表3
-                 </template>
-                 <div>sdfsdfsdf</div>
-                 <div>sdfsdfsdf</div>
-                 <div>sdfsdfsdf</div>
                </el-collapse-item>
                </el-collapse> 
              </div>         
@@ -188,16 +93,33 @@
              <div class="main">kk</div> 
            </el-tab-pane>
         </el-tabs>
+        <!-- 自身好友或群聊main -->
         <main v-if='isactive === null'>
           <el-card>
             无搜索内容
           </el-card>
         </main>
+        <!-- 添加好友或群聊main -->
+        <main v-if='isactive === ""'>
+          <el-card>
+            <el-input placeholder='可通过好友姓名或手机或群聊名称搜索' v-model='searchFdOrGpCtIp'></el-input>
+            <el-button type='success' @click='findOne'>搜索</el-button>
+            <div v-if="findone != null">
+              <el-card>
+                <img src="@/assets/cat.jpg" alt="">
+                <span>{{findone.nickName}}</span>
+                <el-tag @click='applyFriend'  effect="dark" type='info'>添加</el-tag>
+              </el-card>
+            </div>
+          </el-card>
+        </main>
         <footer>
           <div v-if="!isSearch">
             <i @click='isSearch = true' class="iconfont icon-chazhao"></i>
-            <i class="iconfont icon-shengyin"></i>
-            <i class="iconfont icon-tianjia"></i>
+            <el-badge :hidden='myqq.notices.length == 0'  :value='myqq.notices|newNotices'>
+               <i @click='dialogMessage = true' class="iconfont icon-shengyin"></i>
+            </el-badge>
+            <i @click='isactive =""' class="iconfont icon-tianjia"></i>
             <i class="iconfont icon-kefu"></i>
             <i class="iconfont icon-icon"></i>
           </div>
@@ -207,24 +129,27 @@
             </el-input>
           </div>
         </footer>
-        <!-- 消息通知
+        <!-- 消息通知 -->
         <el-dialog
          v-drag
          :close-on-click-modal="false"  
          :visible.sync="dialogMessage"
-         width="30%"
+         width="50%"
         >
-          <div class="dialog_header" slot="title">查看好友或群聊</div>    
+          <div class="dialog_header" slot="title">消息通知</div>  
+           <div v-for='item in myqq.notices' :key='item.ctx'>
+             <div v-if="item.type=='add'">
+               <i class="iconfont icon-shengyin"></i>
+               <span>{{item.msg}}</span>
+               <div>
+                 <el-button type='success' @click='acceptFriend(item)'>同意</el-button>
+                 <el-button type='danger' @click='rejectFriend'>拒绝</el-button>
+               </div>
+             </div>
+             <div v-else-if="item.type=='notice'">aa</div>
+           </div> 
         </el-dialog>
-        搜索好友或群聊
-        <el-dialog
-         v-drag
-         :close-on-click-modal="false"  
-         :visible.sync="dialogFriend"
-         width="30%"
-        >
-        <div class="dialog_header" slot="title">查看好友或群聊</div>    
-      </el-dialog> -->
+
       </el-card>
     </el-aside>
 </el-container>
@@ -232,49 +157,87 @@
  
 </template>
 <script>
+import {getMyQQ,findOne,acceptFriend} from '@/api/users'
 export default {
+  filters:{
+    newNotices(msg){
+     let notices = msg.filter(item => {
+        if(item.isRead == false){
+          return true
+        }
+      })
+      return notices.length
+    }
+  },
   data(){   
     return{
-      socket: null,
-      messages: [],
-      status: null,
-      ctx: {
+      socket: null,   
+      messages: [],  //当前显示的聊天窗的显示信息
+      status: null, //判断当前socket连接状态
+      ctx: {         //发送的信息对象
         id: null,  //私聊或群聊id
-        login: null,  //判断请求是登录还是发送信息
-        to: null,   //  发送至 的id
+        type:'',  //判断请求是登录还是发送信息
+        to: '',   //  发送至 的id
         myself:{  //无论私聊或群聊都要添加自己的信息
           id: this.$store.state.user._id,
-          myImg: null
+          nickName: this.$store.state.user.nickName,
+          myImg: '测试图片地址'
         },
-        msg: '' //发送的信息
+        msg: '' //发送的信息内容
       },
       isactive:'first', //默认显示第一列
       isSearch: false, //是否点击了搜索图标
       searchCtx: '', // 搜索内容
-      msgTabs: [
-        { id: '5fccf9339e7edc2d54a3c95c',
-          type: 0,
-          title: 'Tab 1', //对方的名字
-          name: '1',      //该字段不能修改名称,值为唯一标识
-          type:'',  //用来区别打开的类型
-          content: 'Tab 1 content'
-        }, {
-          id: '5fc85e78e24ba247040a096e',
-          type: 0,
-          title: 'Tab 2',
-          name: '2',
-          content: 'Tab 2 content'
-        }
-      ],
-      activeTab: '1',
-      showMember: false, // 是否展现成员
+      msgTabs: [],     //当前打开的聊天窗
+      activeTab: '1',//当前显示的聊天窗的name
+      showMember: false, // 是否展现群聊成员
+      myqq:{
+        friends:[{
+          groupName: '我的好友',
+          friend: []
+        }],
+        groupChats:[{
+          id: '',
+          name:''
+        }],
+        notices:[]
+      },
+      searchFdOrGpCtIp: '', //搜索好友或群聊的输入框内容
+      findone:null,
+      dialogMessage: false
     }
   },
   mounted(){
-    this.openWs()
+    this.openWs() //连接服务端socket
+    this.getMyQQ() //获取我的好友群聊
   },
   methods: {
-
+    async findOne(){
+      if(this.searchFdOrGpCtIp.trim != ''){
+       const res = await findOne(this.searchFdOrGpCtIp)
+        console.log(res.result)
+        this.findone = {
+          id: res.result._id,
+          nickName: res.result.nickname,
+          img: res.result.img
+        }
+      }else{
+        alert('请输入搜索内容')
+      }
+    },
+    async getMyQQ(){
+      const res = await getMyQQ({userId:this.$store.state.user._id,populate:[{
+          path:'friends.friend',   //对应mongodb集合中对应字段名称
+          select: {_id: 1,nickname:1,img:1},  //填充关联集合中哪个字段 也可以用数组对象形式 [{roleName: 1}]
+          model: 'User',    //关联哪个集合, 没有指定就会使用Schema的ref
+          // match: {} ,    //查询条件
+          //options    //  排序,条数限制等等同 mongodb中 find()
+        }]})
+      this.myqq.friends = res.result.friends
+      this.myqq.groupChats = res.result.groupChats
+      this.myqq.notices = res.result.notices
+      console.log(res)
+    },
     // 点击了侧标栏顶部工具栏第一个搜索自身好友群聊的图标
     search(e){
       this.isactive = null
@@ -303,11 +266,22 @@ export default {
     if(window.WebSocket){
       this.socket = new WebSocket("ws://localhost:8225/ws")
       this.socket.onmessage = function(event){
-        that.messages.push(JSON.parse(event.data)) 
-        console.log(JSON.parse(event.data))
+        let data = JSON.parse(event.data)
+        if(data.type&&data.type == 'add'){
+          that.myqq.notices.push(data)
+        }else if(data.type&&data.type == 'msg'){
+          that.messages.push(JSON.parse(event.data)) 
+        }else if(data.type == 'unRead'){
+          console.log(data)
+        }
       };
       this.socket.onopen = function(event){
        that.status = '连接开启'
+       that.ctx.type= 'notice'
+       console.log(that.ctx)
+       that.ctx.id = that.$store.state.user._id
+       that.send();
+       
       } 
       this.socket.onclose = function(event){
          that.status = '连接被关闭'
@@ -316,15 +290,20 @@ export default {
         alert('你的浏览器不支持WebSocket!')
       }
     },
-    send(){
+      // 发送聊天内容 或登录
+    send(type){
+      if(type){
+    this.ctx.type = type
+      }
       if(!window.WebSocket){
         alert('你的浏览器不支持WebSocket!')
         return;
       }
       if(this.socket.readyState == WebSocket.OPEN){
-        if(this.ctx.msg.trim() == '' &&this.ctx.login==false){
+        if(this.ctx.msg.trim() == '' &&type=='msg'){
           alert('发送消息不能为空')
         }else{
+
           this.socket.send(JSON.stringify(this.ctx))
         }  
       }else{
@@ -333,40 +312,58 @@ export default {
       this.ctx.msg = ''
     },
     changeTab(e){
-      console.log('触发')
-      this.ctx.login = true
       this.msgTabs.some(item => {
         if(item.name ==this.activeTab){
           if(item.type == 0){ //私聊
-            this.ctx.id = this.$store.state.user._id+ '-'+item.id
-            this.ctx.to = item.id+ '-'+this.$store.state.user._id
-         }else{   //群聊
-            this.ctx.id = item.id   
-            this.ctx.to = item.id     
+            this.ctx.id = this.$store.state.user._id+ '-'+item.name
+            this.ctx.to = item.name+ '-'+this.$store.state.user._id
+          }else{   //群聊
+            this.ctx.id = item.name   
+            this.ctx.to = item.name     
           }
           return true
         }
       })
-      console.log(this.ctx.id)
-      this.send()
-      this.ctx.login =false
+      this.send('login')
+
     },
     addTab(item,type){
       this.msgTabs.push({
-         id: '222',
          type: 0,
-         title: 'Tab 3',
-         name: '3',
-         content: 'Tab 3 content'
+         title: item.nickname,
+         name: item._id
       })
-      this.activeTab = '3'
-      this.changeTab()
-    
-     
-     
+      this.activeTab = item._id
+      this.changeTab()  
     },
-    // 发送聊天内容
     sendInput(){
+
+    },
+    // 申请添加好友
+    applyFriend(){
+        this.ctx.id = this.$store.state.user._id
+        this.ctx.type = 'notice'
+        this.ctx.myself.type='add'
+        this.ctx.to = this.findone.id
+        this.ctx.msg = this.findone.nickName+ '请求添加你为好友'
+        this.send()
+        this.$messageBox.alert('请求已发送','提示',{
+          confirmButtonText: '确定'
+        })
+        this.findone = null;
+        this.isactive = 'first'
+    },
+    // 同意添加好友
+    async acceptFriend(item){
+      const res = await acceptFriend({
+        toid:item.id,
+        tonickName:item.nickName,
+        toimg:item.myImg,
+        ...this.ctx.myself}) 
+      console.log(res)
+    },
+    // 拒绝添加好友
+   rejectFriend(){
 
     }
   },
@@ -597,6 +594,62 @@ export default {
           opacity: 0.95;
           height:60vh;
           background-color: #fff;
+          .el-card{
+            height: 100%;
+            /deep/.el-input__inner {
+                  padding-right: 60px;
+                  background: rgba(245, 245, 245, 1);
+                  color: #000000;
+                  background: #dddddd;
+                  &:focus{
+                    background: #dddddd;
+                  } 
+                   &::placeholder {
+                      color:rgb(80, 78, 78);
+                  }
+                  &::-webkit-input-placeholder {
+                      /* WebKit browsers 适配谷歌 */
+                      color: rgb(80, 78, 78);
+                  }
+                  &:-moz-placeholder {
+                      /* Mozilla Firefox 4 to 18 适配火狐 */
+                      color: rgb(80, 78, 78);
+                  }
+                  &::-moz-placeholder {
+                      /* Mozilla Firefox 19+ 适配火狐 */
+                      color: rgb(80, 78, 78);
+                  }
+                  &:-ms-input-placeholder {
+                      /* Internet Explorer 10+  适配ie*/
+                      color: rgb(80, 78, 78);
+                  }        
+             }
+             .el-button{
+               margin-top: 10px;
+             }
+             .el-card{
+               margin-top: 10px;
+
+               img{
+                 width: 40px;
+                 height: 40px;
+                 border-radius: 50px;
+                 vertical-align: middle;
+                 margin-right: 10px; 
+                }
+                span{
+                  flex:1;
+                }
+                .el-tag{
+                  float: right;
+                  &:active{
+                    box-shadow: 0 0 6px 6px rgb(121, 120, 120);
+                  }
+                }
+
+             }
+            
+          }
         }
         footer{
           background-color: #f6f6f6;     
@@ -662,4 +715,17 @@ export default {
     }
   }
 }
+.el-dialog{
+  line-height: 40px;
+ .iconfont{
+    font-size: 24px;
+    vertical-align: middle;
+    color: rgb(83, 127, 231);
+  }
+  span{
+    line-height: 40px;
+    font-size: 16px;
+  }
+}
+
 </style>

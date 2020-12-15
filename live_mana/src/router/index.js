@@ -57,6 +57,12 @@ const routes = [{
                 component: () =>
                     import ('@/views/tools/msn.vue')
             },
+            {
+                path: '/csss',
+                name: 'csss',
+                component: () =>
+                    import ('@/views/tools/csss.vue')
+            },
         ]
     }
 

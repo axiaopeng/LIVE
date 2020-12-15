@@ -35,3 +35,32 @@ export function removeUser(id) {
         }
     })
 }
+
+
+//获取用户的聊天好友群聊信息
+export function getMyQQ(params) {
+    return req({
+        url: '/user/myQQ',
+        method: 'get',
+        params
+    })
+}
+//查询好友或群聊
+export function findOne(ipt) {
+    return req({
+        url: '/user/findOne',
+        method: 'get',
+        params: {
+            ipt
+        }
+    })
+}
+
+//同意好友请求
+export function acceptFriend(data) {
+    return req({
+        url: '/user/acceptFriend',
+        method: 'post',
+        data
+    })
+}

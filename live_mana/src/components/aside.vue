@@ -82,6 +82,9 @@ export default {
         children: [{
           title: '即时通讯',
           to: '/msn'
+        },{
+          title: '工具样式',
+          to: '/csss'
         }]
       })
     }

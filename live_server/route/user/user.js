@@ -2,6 +2,7 @@
 const router = require('koa-router')();
 const User = require('../../utils/models/user')
 const Global = require('../../utils/models/global')
+const MyQQ = require('../../utils/models/myQQ')
 const { query, queryOne, save, update, updateOne, deleteOne, deleteMany } = require('../../utils/curd')
 const jwt = require('jsonwebtoken');
 const secretOrkey = 'secret';
@@ -121,6 +122,48 @@ router.get('/info_u', async(ctx) => {
         }
     })
     //@info_u  --end
+
+//@myQQ --start  即时通信模块 
+//获取我的QQ信息
+router.get('/myQQ', async(ctx) => {
+        let res = await queryOne(MyQQ, ctx.request.query)
+        if (res == null) {
+            res = await save(MyQQ, ctx.request.query)
+        }
+        ctx.body = {
+            status: 200,
+            result: res
+        }
+    })
+    //查找好友或群聊
+router.get('/findOne', async(ctx) => {
+    let phoneReg = /^0?(13[0-9]|14[0-9]|15[0-9]|16[0-9]|17[0-9]|18[0-9]|19[0-9])[0-9]{8}$/
+    let res
+    if (phoneReg.test(ctx.request.query.ipt)) { //如果是手机号的话
+
+        res = await queryOne(User, { username: ctx.request.query.ipt })
+        ctx.body = {
+            status: 200,
+            result: res
+        }
+
+    } else {
+        //群聊搜索
+        console.log('2')
+    }
+})
+
+//添加好友或群聊
+router.post('/acceptFriend', async(ctx) => {
+    let item = ctx.request.body
+        // console.log(item)
+    const res = await updateOne(MyQQ, { userId: item.toid, "friends.groupName": '我的好友' }, { $addToSet: { "friends.$.friend": item.id } })
+    const res1 = await updateOne(MyQQ, { userId: item.id, "friends.groupName": '我的好友' }, { $addToSet: { "friends.$.friend": item.toid } })
+    console.log(res)
+    console.log(res1)
+})
+
+//@myQQ --end  即时通信模块    
 
 
 module.exports = router

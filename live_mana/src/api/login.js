@@ -1,7 +1,10 @@
 import req from "@/utils/request";
-
+export {
+    loginbyusername,
+    getuserinfo
+}
 // 获取token   用户名登录
-export function loginbyusername(username, password) {
+function loginbyusername(username, password) {
     const data = {
         username,
         password
@@ -14,7 +17,7 @@ export function loginbyusername(username, password) {
 }
 
 // 获取用户信息
-export function getuserinfo(token) {
+function getuserinfo(token) {
     return req({
         url: '/user/info_u',
         method: 'get',

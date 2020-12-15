@@ -6,9 +6,9 @@ const user = {
     state: {
         _id: '',
         myImg: '',
-        user: '',
+        username: '',
         token: getToken(),
-        name: '',
+        nickName: '',
         avatar: '',
         roles: [],
         perms: []
@@ -25,6 +25,9 @@ const user = {
         },
         SET_ID: (state, _id) => {
             state._id = _id
+        },
+        SET_NN: (state, nickName) => {
+            state.nickName = nickName
         }
     },
     actions: {
@@ -52,7 +55,9 @@ const user = {
             return new Promise((resolve, reject) => {
                 getuserinfo(state.token).then(response => {
                     if (response.status === 200) {
+                        console.log(response)
                         commit('SET_ID', response.result._id)
+                        commit('SET_NN', response.result.nickname)
                             // commit('SET_ROLES', data.roles)
                             // commit('SET_ROLES', data.roles)
                     }

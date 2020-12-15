@@ -2,14 +2,14 @@
   <el-main>
     <el-row :gutter='12'>
       <el-col :span='8'>
-        <el-card>
+        <el-card  v-loading='visitChart == null'>
           <div slot="header"
                class="cardHeader">近五日系统访问次数</div>
           <div id="visits" class="visits" ></div>
         </el-card>
       </el-col>
       <el-col :span='8'>
-        <el-card>
+        <el-card v-loading='weatherChart == null'>
           <div slot="header"
                class="cardHeader">最近七日温度变化(城市：{{city}})</div>
           <div id="weather" class="weather"></div>     
